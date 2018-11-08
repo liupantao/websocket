@@ -1,2 +1,3 @@
-# websocket
-websocket服务端主动向客户端发信息的demo
+# Springboot2.0+websocket+Redis+SpringSession
+
+实现websocket服务端主动向客户端发信息的demo，和整合redis+springsession实现session共享的小项目
