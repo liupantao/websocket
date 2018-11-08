@@ -11,6 +11,7 @@ public class WebsocketApplicationTests {
 
     @Test//测试test12334
     public void contextLoads() {
+        System.out.println();
     }
 
 }
