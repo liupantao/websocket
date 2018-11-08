@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 public class HelloController {
@@ -50,10 +51,14 @@ public class HelloController {
 
     @RequestMapping("hello")
     public String hello(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        socketServer.sendMessage("---haha");
-        //获取所有session
-        HttpSession session = request.getSession();
 
+
+        //获取
+        Integer onlineCount = WebSocketServer.getOnlineCount();
+        log.info("在线人数＝ " + onlineCount);
+        //获取全部容器
+        ConcurrentHashMap<String, WebSocketServer> webSocketSet = WebSocketServer.getWebSocketSet();
+        socketServer.sendtoAll("----系统消息--恭喜发财！");
         return "你嗯嗯好！";
     }
 
@@ -86,6 +91,11 @@ public class HelloController {
         return map;
     }
 
+    /**
+     * springSession共享测试
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/sessions", method = RequestMethod.GET)
     public Object sessions (HttpServletRequest request){
         Map<String, Object> map = new HashMap<>();

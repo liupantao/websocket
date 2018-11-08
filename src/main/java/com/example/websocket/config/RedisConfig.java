@@ -36,7 +36,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 // 必须加，使配置生效
 @EnableCaching
-@EnableRedisHttpSession
+@EnableRedisHttpSession//springSeesion共享
 public class RedisConfig extends CachingConfigurerSupport {
 
     /**
@@ -143,9 +143,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         private  int port;
         @Value("${spring.redis.timeout}")
         private  int timeout;
-        @Value("${spring.redis.pool.min-idle}")
+        @Value("${spring.redis.jedis.pool.max-idle}")
         private int maxIdle;
-        @Value("${spring.redis.pool.max-wait}")
+        @Value("${spring.redis.jedis.pool.max-wait}")
         private long maxWaitMillis;
 
         @Bean

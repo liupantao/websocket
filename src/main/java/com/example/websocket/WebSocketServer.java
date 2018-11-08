@@ -1,5 +1,6 @@
 package com.example.websocket;
 
+import jdk.internal.dynalink.beans.StaticClass;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,18 @@ import java.util.concurrent.ConcurrentHashMap;
 //访问服务端的url地址
 @ServerEndpoint(value = "/websocket/{id}")
 public class WebSocketServer {
+
+    private static Logger log = LogManager.getLogger(WebSocketServer.class);
+
+    //在线人数
     private static int onlineCount = 0;
+
+    //全局容器，存连接对象 支持线程安全
     private static ConcurrentHashMap<String, WebSocketServer> webSocketSet = new ConcurrentHashMap<>();
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-    private static Logger log = LogManager.getLogger(WebSocketServer.class);
+
     private String id = "";
 
     /**
@@ -41,14 +48,14 @@ public class WebSocketServer {
         addOnlineCount();           //在线数加1
         log.info("用户" + id + "加入！当前在线人数为" + getOnlineCount());
         try {
-            sendMessage("连接成功");
+            sendMessage("连接成功用户"+  id + "  　");
         } catch (IOException e) {
             log.error("websocket IO异常");
         }
     }
 
     /**
-     * 连接关闭调用的方法
+     * 连接关闭调用的方
      */
     @OnClose
     public void onClose() {
@@ -122,6 +129,7 @@ public class WebSocketServer {
     public void sendtoAll(String message) throws IOException {
         for (String key : webSocketSet.keySet()) {
             try {
+                log.info("--给用户"+key+" ---发通知！");
                 webSocketSet.get(key).sendMessage(message);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,6 +150,13 @@ public class WebSocketServer {
         WebSocketServer.onlineCount--;
     }
 
+    /**
+     * 返回Socket全局容器
+     * @return
+     */
+    public static  ConcurrentHashMap<String, WebSocketServer> getWebSocketSet(){
+        return webSocketSet;
+    }
 
 }
 
