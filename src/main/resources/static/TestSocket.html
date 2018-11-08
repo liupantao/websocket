@@ -17,8 +17,8 @@
         }else{
             console.log("您的浏览器支持WebSocket");
             //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
-            //socket = new WebSocket("ws://localhost:8080/websocket/张三")
-            socket = new WebSocket("ws://localhost:8080/websocket");
+            socket = new WebSocket("ws://localhost:8080/websocket/张三")
+            //socket = new WebSocket("ws://localhost:8080/websocket");
             //打开事件
             socket.onopen = function() {
                 console.log("Socket 已打开");
@@ -28,7 +28,7 @@
             socket.onmessage = function(msg) {
                 console.log(msg.data);
                 //发现消息进入    调后台获取
-                getCallingList();
+                alert(msg.data);
             };
             //关闭事件
             socket.onclose = function() {
@@ -43,6 +43,7 @@
             });
         }
     }
+
 
 </script>
 </body>
