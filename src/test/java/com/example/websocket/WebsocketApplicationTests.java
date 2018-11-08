@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class WebsocketApplicationTests {
 
-    @Test//测试test
+    @Test//测试test123
     public void contextLoads() {
     }
 
